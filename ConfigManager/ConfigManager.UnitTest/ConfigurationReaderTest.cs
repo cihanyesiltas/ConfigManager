@@ -19,13 +19,15 @@ namespace ConfigManager.UnitTest
         {
             _mockCacheManager = Substitute.For<ICacheManager>();
             _mockStorageProvider = Substitute.For<IStorageProvider>();
+            _mockStorageProvider.GetList(Arg.Any<string>())
+                .Returns(new List<ConfigurationDTO> { new ConfigurationDTO() });
         }
 
         [Test]
         public void Add_EmptyRequest_NotAdded()
         {
             var configurationReader = new ConfigurationReader(_mockCacheManager, _mockStorageProvider, ApplicationName, 1);
-
+          
             var result = configurationReader.Add(null);
 
             Assert.False(result);
@@ -35,7 +37,7 @@ namespace ConfigManager.UnitTest
         public void Add_EmptyName_NotAdded()
         {
             var configurationReader = new ConfigurationReader(_mockCacheManager, _mockStorageProvider, ApplicationName, 1);
-
+         
             var result = configurationReader.Add(new AddConfigurationDTO
             {
                 IsActive = true,
@@ -51,7 +53,7 @@ namespace ConfigManager.UnitTest
         public void Add_EmptyValue_NotAdded()
         {
             var configurationReader = new ConfigurationReader(_mockCacheManager, _mockStorageProvider, ApplicationName, 1);
-
+         
             var result = configurationReader.Add(new AddConfigurationDTO
             {
                 IsActive = true,
@@ -67,7 +69,7 @@ namespace ConfigManager.UnitTest
         public void Add_EmptyType_NotAdded()
         {
             var configurationReader = new ConfigurationReader(_mockCacheManager, _mockStorageProvider, ApplicationName, 1);
-
+         
             var result = configurationReader.Add(new AddConfigurationDTO
             {
                 IsActive = true,
@@ -83,7 +85,7 @@ namespace ConfigManager.UnitTest
         public void Add_ExistingName_NotAdded()
         {
             var configurationReader = new ConfigurationReader(_mockCacheManager, _mockStorageProvider, ApplicationName, 1);
-
+            
             _mockStorageProvider.Exists(Arg.Any<string>(), Arg.Any<string>()).Returns(true);
 
             var result = configurationReader.Add(new AddConfigurationDTO
@@ -253,7 +255,8 @@ namespace ConfigManager.UnitTest
                         Name = "name",
                         ApplicationName = ApplicationName,
                         Value = keyValue,
-                        Type = "String"
+                        Type = "String",
+                        IsActive = true
                     }
                 });
 
