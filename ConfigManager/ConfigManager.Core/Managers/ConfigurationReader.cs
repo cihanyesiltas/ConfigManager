@@ -79,7 +79,11 @@ namespace ConfigManager.Core.Managers
 
         public List<ConfigurationDTO> SearchByName(string name)
         {
-            return _storageProvider.Search(name, _applicationName);
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                return _storageProvider.Search(name, _applicationName);
+            }
+            return new List<ConfigurationDTO>();
         }
 
         public ConfigurationDTO GetById(string id)
