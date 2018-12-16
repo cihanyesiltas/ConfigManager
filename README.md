@@ -10,6 +10,7 @@ Kütüphane projeye eklendikten sonra aşağıdaki gibi kullanılabilir.
 ```
 IConfigurationReaderFactory readerFactory = new ConfigurationReaderFactory();
 IConfigurationReader reader = readerFactory.Create("ApplicationName", connection, refreshTimeIntervalInMs));
+var value = reader.GetValue<string>("TestKey");
 ```
 **ApplicationName:** Uygulamanızın adı. Her uygulama kendi verilerine ulaşabilmesi için verilecek ad.
 
