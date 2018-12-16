@@ -8,11 +8,11 @@ namespace ConfigManager.Web.Pages
 {
     public class EditConfigurationModel : PageModel
     {
-        private IConfigurationReader _configurationManager;
+        private IConfigurationReader _configurationReader;
 
-        public EditConfigurationModel(IConfigurationReader configurationManager)
+        public EditConfigurationModel(IConfigurationReader configurationReader)
         {
-            _configurationManager = configurationManager;
+            _configurationReader = configurationReader;
         }
 
 
@@ -23,7 +23,7 @@ namespace ConfigManager.Web.Pages
         {
             if (!string.IsNullOrWhiteSpace(id))
             {
-                var configuration = _configurationManager.GetById(id);
+                var configuration = _configurationReader.GetById(id);
 
                 Configuration = new Configuration
                 {
@@ -43,7 +43,7 @@ namespace ConfigManager.Web.Pages
                 return Page();
             }
 
-            _configurationManager.Update(new UpdateConfigurationDTO
+            _configurationReader.Update(new UpdateConfigurationDTO
             {
                 Id = Configuration.Id,
                 Type = Configuration.Type,

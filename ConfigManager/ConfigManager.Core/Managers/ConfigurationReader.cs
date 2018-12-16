@@ -30,7 +30,7 @@ namespace ConfigManager.Core.Managers
 
         public T GetValue<T>(string key)
         {
-            var cachedItem = CachedList.FirstOrDefault(a => a.Name == key);
+            var cachedItem = CachedList.FirstOrDefault(a => a.Name == key && a.IsActive);
 
             if (cachedItem != null)
             {
@@ -47,7 +47,7 @@ namespace ConfigManager.Core.Managers
                 var isExist = _storageProvider.Exists(dto.Name, _applicationName);
                 if (!isExist)
                 {
-                  return _storageProvider.Add(new AddStorageConfigurationDTO
+                    return _storageProvider.Add(new AddStorageConfigurationDTO
                     {
                         Type = dto.Type,
                         IsActive = dto.IsActive,
@@ -113,8 +113,20 @@ namespace ConfigManager.Core.Managers
 
         private void FillCacheConfigurationList()
         {
-            var list = _storageProvider.GetActiveList(_applicationName);
-            _cacheManager.Add(CacheKey.ApplicationConfigurationParameterList, list);
+            var list = _storageProvider.GetList(_applicationName);
+            var cacheList = list.Select(a => new CacheConfigurationDTO
+            {
+                ApplicationName = a.ApplicationName,
+                Value = a.Value,
+                Name = a.Name,
+                Type = a.Type,
+                Id = a.Id,
+                CreationDate = a.CreationDate,
+                LastModifyDate = a.LastModifyDate,
+                IsActive = a.IsActive
+            }).ToList();
+
+            _cacheManager.Add(CacheKey.ApplicationConfigurationParameterList, cacheList);
         }
 
         private void RefreshCache(object sender, System.Timers.ElapsedEventArgs e)
@@ -132,16 +144,10 @@ namespace ConfigManager.Core.Managers
                 var existingCacheItem = newCachedList.FirstOrDefault(a => a.Id == configuration.Id);
                 if (existingCacheItem != null)
                 {
-                    if (!configuration.IsActive)
-                    {
-                        newCachedList.Remove(existingCacheItem);
-                    }
-                    else
-                    {
-                        existingCacheItem.Type = configuration.Type;
-                        existingCacheItem.Value = configuration.Value;
-                        existingCacheItem.LastModifyDate = configuration.LastModifyDate;
-                    }
+                    existingCacheItem.Type = configuration.Type;
+                    existingCacheItem.Value = configuration.Value;
+                    existingCacheItem.LastModifyDate = configuration.LastModifyDate;
+                    existingCacheItem.IsActive = configuration.IsActive;
                 }
                 else
                 {
@@ -153,7 +159,8 @@ namespace ConfigManager.Core.Managers
                         Value = configuration.Value,
                         Name = configuration.Name,
                         ApplicationName = configuration.ApplicationName,
-                        CreationDate = configuration.CreationDate
+                        CreationDate = configuration.CreationDate,
+                        IsActive = configuration.IsActive
                     });
                 }
             }

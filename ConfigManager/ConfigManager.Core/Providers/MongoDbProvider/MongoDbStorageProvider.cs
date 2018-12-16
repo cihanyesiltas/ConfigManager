@@ -104,23 +104,6 @@ namespace ConfigManager.Core.Providers.MongoDbProvider
                 }).ToList();
         }
 
-        public List<ConfigurationDTO> GetActiveList(string applicationName)
-        {
-            return Collection.AsQueryable()
-                .Where(a => a.IsActive && a.ApplicationName == applicationName).AsEnumerable().Select(a =>
-                    new ConfigurationDTO
-                    {
-                        Id = a.Id.ToString(),
-                        IsActive = a.IsActive,
-                        Name = a.Name,
-                        Type = a.Type,
-                        ApplicationName = a.ApplicationName,
-                        Value = a.Value,
-                        CreationDate = a.CreationDate,
-                        LastModifyDate = a.LastModifyDate
-                    }).ToList();
-        }
-
         public List<ConfigurationDTO> Search(string searchName, string applicationName)
         {
             return Collection.AsQueryable()

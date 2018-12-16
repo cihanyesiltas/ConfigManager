@@ -11,11 +11,11 @@ namespace ConfigManager.Web.Pages
         [BindProperty]
         public Configuration Configuration { get; set; }
 
-        private IConfigurationReader _configurationManager;
+        private IConfigurationReader _configurationReader;
 
-        public ConfigurationModel(IConfigurationReader configurationManager)
+        public ConfigurationModel(IConfigurationReader configurationReader)
         {
-            _configurationManager = configurationManager;
+            _configurationReader = configurationReader;
         }
 
         public void OnGet()
@@ -29,7 +29,7 @@ namespace ConfigManager.Web.Pages
                 return Page(); // return page  
             }
         
-            _configurationManager.Add(new AddConfigurationDTO
+            _configurationReader.Add(new AddConfigurationDTO
             {
                 Type = Configuration.Type,
                 Value = Configuration.Value,

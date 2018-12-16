@@ -9,11 +9,11 @@ namespace ConfigManager.Web.Pages
 {
     public class IndexModel : PageModel
     {
-        private IConfigurationReader _configurationManager;
+        private IConfigurationReader _configurationReader;
 
-        public IndexModel(IConfigurationReader configurationManager)
+        public IndexModel(IConfigurationReader configurationReader)
         {
-            _configurationManager = configurationManager;
+            _configurationReader = configurationReader;
         }
 
         public List<Configuration> ConfigurationList { get; set; }
@@ -26,7 +26,7 @@ namespace ConfigManager.Web.Pages
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {
-                ConfigurationList = _configurationManager.SearchByName(searchString).Select(a => new Configuration
+                ConfigurationList = _configurationReader.SearchByName(searchString).Select(a => new Configuration
                 {
                     Type = a.Type,
                     Value = a.Value,
@@ -37,7 +37,7 @@ namespace ConfigManager.Web.Pages
             }
             else
             {
-                ConfigurationList = _configurationManager.GetAll().Select(a => new Configuration
+                ConfigurationList = _configurationReader.GetAll().Select(a => new Configuration
                 {
                     Type = a.Type,
                     Value = a.Value,

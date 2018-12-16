@@ -11,5 +11,6 @@ namespace ConfigManager.Core.DTOs
         public string ApplicationName { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime LastModifyDate { get; set; }
+        public bool IsActive { get; set; }
     }
 }

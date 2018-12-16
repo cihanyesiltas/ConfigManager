@@ -13,7 +13,6 @@ namespace ConfigManager.Core.Contracts
         bool Update(UpdateConfigurationDTO dto);
         List<ConfigurationDTO> GetList(string applicationName);
         List<ConfigurationDTO> GetList(string applicationName, DateTime lastModifyDate);
-        List<ConfigurationDTO> GetActiveList(string applicationName);
         List<ConfigurationDTO> Search(string searchName, string applicationName);
     }
 }

@@ -148,28 +148,6 @@ namespace ConfigManager.Core.Providers.PostgreSqlProvider
             }
         }
 
-        public List<ConfigurationDTO> GetActiveList(string applicationName)
-        {
-            using (var dbConnection = Connection)
-            {
-                dbConnection.Open();
-                return dbConnection
-                    .Query<Configuration>(
-                        $"SELECT * FROM \"Configuration\" WHERE \"IsActive\" = true AND \"ApplicationName\" = '{applicationName}'")
-                    .Select(a => new ConfigurationDTO
-                    {
-                        ApplicationName = a.ApplicationName,
-                        Type = a.Type,
-                        IsActive = a.IsActive,
-                        Name = a.Name,
-                        CreationDate = a.CreationDate,
-                        Value = a.Value,
-                        Id = a.Id.ToString(),
-                        LastModifyDate = a.LastModifyDate
-                    }).ToList();
-            }
-        }
-
         public List<ConfigurationDTO> Search(string searchName, string applicationName)
         {
             using (var dbConnection = Connection)
