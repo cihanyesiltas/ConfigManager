@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using ConfigManager.Core.Contracts;
 using ConfigManager.Core.DTOs;
 using ConfigManager.Web.Models;
@@ -22,14 +23,14 @@ namespace ConfigManager.Web.Pages
         {
         }
 
-        public ActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page(); // return page  
             }
-        
-            _configurationReader.Add(new AddConfigurationDTO
+
+            await _configurationReader.AddAsync(new AddConfigurationDTO
             {
                 Type = Configuration.Type,
                 Value = Configuration.Value,

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using ConfigManager.Core.Contracts;
 using ConfigManager.Core.DTOs;
-using ConfigManager.Core.Extensions;
 using Dapper;
 using Npgsql;
 
@@ -20,24 +20,6 @@ namespace ConfigManager.Core.Providers.PostgreSqlProvider
         }
 
         private IDbConnection Connection => new NpgsqlConnection(_connectionString);
-
-        public T GetValue<T>(string key, string applicationName)
-        {
-            using (var dbConnection = Connection)
-            {
-                dbConnection.Open();
-                var entity = dbConnection
-                    .Query<Configuration>($"SELECT * FROM \"Configuration\" WHERE \"Name\"='{key}' AND \"ApplicationName\" = '{applicationName}' LIMIT 1")
-                    .FirstOrDefault();
-
-                if (entity != null)
-                {
-                    return entity.Value.Cast<T>(entity.Type);
-                }
-
-                return default(T);
-            }
-        }
 
         public bool Exists(string key, string applicationName)
         {
@@ -102,6 +84,28 @@ namespace ConfigManager.Core.Providers.PostgreSqlProvider
             }
 
             return true;
+        }
+
+        public async Task<bool> AddAsync(AddStorageConfigurationDTO dto)
+        {
+            using (var dbConnection = Connection)
+            {
+                var query = "INSERT INTO \"Configuration\" (\"Name\", \"Type\", \"Value\",\"IsActive\",\"ApplicationName\",\"CreationDate\", \"LastModifyDate\")"
+                            + " VALUES(@Name, @Type, @Value,@IsActive, @ApplicationName,@CreationDate, @LastModifyDate )";
+                dbConnection.Open();
+                var res = await dbConnection.ExecuteAsync(query, new
+                {
+                    Value = dto.Value,
+                    Name = dto.Name,
+                    ApplicationName = dto.ApplicationName,
+                    IsActive = dto.IsActive,
+                    Type = dto.Type,
+                    CreationDate = DateTime.Now,
+                    LastModifyDate = DateTime.Now
+                });
+
+                return res > 0;
+            }
         }
 
         public bool Update(UpdateConfigurationDTO dto)

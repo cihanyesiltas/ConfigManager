@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ConfigManager.Core.Contracts;
 using ConfigManager.Core.DTOs;
-using ConfigManager.Core.Extensions;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -23,18 +23,6 @@ namespace ConfigManager.Core.Providers.MongoDbProvider
         private IMongoDatabase Db => _dbClient.GetDatabase(DbName);
 
         private IMongoCollection<ConfigurationDocument> Collection => Db.GetCollection<ConfigurationDocument>(CollectionName);
-
-        public T GetValue<T>(string key, string applicationName)
-        {
-            var result = Collection.AsQueryable().FirstOrDefault(a =>
-                a.IsActive && a.Name == key && a.ApplicationName == applicationName);
-
-            if (result != null)
-            {
-                return result.Value.Cast<T>(result.Type);
-            }
-            return default(T);
-        }
 
         public bool Exists(string key, string applicationName)
         {
@@ -74,6 +62,22 @@ namespace ConfigManager.Core.Providers.MongoDbProvider
                 LastModifyDate = DateTime.Now,
                 ApplicationName = dto.ApplicationName
             });
+            return true;
+        }
+
+        public async Task<bool> AddAsync(AddStorageConfigurationDTO dto)
+        {
+            await Collection.InsertOneAsync(new ConfigurationDocument
+            {
+                Type = dto.Type,
+                Value = dto.Value,
+                Name = dto.Name,
+                IsActive = dto.IsActive,
+                CreationDate = DateTime.Now,
+                LastModifyDate = DateTime.Now,
+                ApplicationName = dto.ApplicationName
+            });
+
             return true;
         }
 

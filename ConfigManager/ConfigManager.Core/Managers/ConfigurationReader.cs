@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ConfigManager.Core.Const;
 using ConfigManager.Core.Contracts;
 using ConfigManager.Core.DTOs;
@@ -48,6 +49,28 @@ namespace ConfigManager.Core.Managers
                 if (!isExist)
                 {
                     return _storageProvider.Add(new AddStorageConfigurationDTO
+                    {
+                        Type = dto.Type,
+                        IsActive = dto.IsActive,
+                        Value = dto.Value,
+                        Name = dto.Name,
+                        ApplicationName = _applicationName
+                    });
+                }
+            }
+
+            return false;
+        }
+
+        public async Task<bool> AddAsync(AddConfigurationDTO dto)
+        {
+            var validationResult = new AddNewConfigurationValidator().Validate(dto);
+            if (validationResult.IsValid)
+            {
+                var isExist = _storageProvider.Exists(dto.Name, _applicationName);
+                if (!isExist)
+                {
+                   return await _storageProvider.AddAsync(new AddStorageConfigurationDTO
                     {
                         Type = dto.Type,
                         IsActive = dto.IsActive,
