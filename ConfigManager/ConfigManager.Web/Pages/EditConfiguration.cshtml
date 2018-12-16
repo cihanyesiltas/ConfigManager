@@ -1,0 +1,41 @@
+﻿@page
+@model EditConfigurationModel
+@{
+}
+
+<div class="container">
+    <h3>Edit Customer</h3>
+    <hr />
+    <br />
+    <form method="post">
+        <input asp-for="Configuration.Id" type="hidden" />
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="Configuration.Name"></label>
+                <input asp-for="Configuration.Name" class="form-control" readonly="readonly" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="Configuration.Type"></label>
+                <input asp-for="Configuration.Type" class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="Configuration.Value"></label>
+                <input asp-for="Configuration.Value" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="Configuration.IsActive"></label>
+                <input asp-for="Configuration.IsActive" cl class="form-control" />
+            </div>
+        </div>
+        <br />
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a class="btn btn-default" href="/Index">Cancel</a>
+    </form>
+</div>  

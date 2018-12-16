@@ -1,0 +1,49 @@
+﻿@page
+@model ConfigurationModel
+@{
+}
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+<div class="container">
+    <h3>Add New Item</h3>
+    <hr />
+    <br />
+    <form method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="Configuration.Name"></label>
+                <input asp-for="Configuration.Name" class="form-control" />
+                <span class="alert-danger" asp-validation-for="Configuration.Name"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="Configuration.Type"></label>
+                <input asp-for="Configuration.Type" class="form-control" />
+                <span class="alert-danger" asp-validation-for="Configuration.Type"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="Configuration.Value"></label>
+                <input asp-for="Configuration.Value" class="form-control" />
+                <span class="alert-danger" asp-validation-for="Configuration.Value"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="Configuration.IsActive"></label>
+                <input asp-for="Configuration.IsActive" cl class="form-control" />
+                <span class="alert-danger" asp-validation-for="Configuration.IsActive"></span>
+            </div>
+        </div>
+        <br />
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a class="btn btn-default" href="/Index">Cancel</a>
+    </form>
+</div>  
