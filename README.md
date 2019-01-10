@@ -12,9 +12,9 @@ IConfigurationReaderFactory readerFactory = new ConfigurationReaderFactory();
 IConfigurationReader reader = readerFactory.Create("ApplicationName", connection, refreshTimeIntervalInMs));
 var value = reader.GetValue<string>("TestKey");
 ```
-**ApplicationName:** Uygulamanızın adı. Her uygulama kendi verilerine ulaşabilmesi için verilecek ad.
+**ApplicationName:** Uygulamanızın adı. Her uygulama kendi verilerine ulaşabilmesi için verilecek tekil ad.
 
-**Connection:** Verilerin tutulacağı yerin bilgileri. (new Connection("connectionString", StorageProviderType.MongoDb))
+**Connection:** Verilerin tutulacağı depolama alanı bilgileri. Örn: ```new Connection("connectionString", StorageProviderType.MongoDb))```
 
 **RefreshTimeIntervalInMs:** ConfigurationReader bu süre aralığıyla veritabanına yeni eklenen veya güncellenen bilgiler varsa cache'i günceller.
 
