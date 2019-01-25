@@ -19,13 +19,15 @@ namespace ConfigManager.Web.Pages
         public List<Configuration> ConfigurationList { get; set; }
 
         public string CurrentFilter { get; set; }
-
+        public string CacheSearchResult { get; set; }
+        
         public void OnGet(string searchString)
         {
             CurrentFilter = searchString;
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {
+                CacheSearchResult = _configurationReader.GetValue<string>(searchString);
                 ConfigurationList = _configurationReader.SearchByName(searchString).Select(a => new Configuration
                 {
                     Type = a.Type,
