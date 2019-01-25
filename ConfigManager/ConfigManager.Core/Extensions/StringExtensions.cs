@@ -21,6 +21,25 @@ namespace ConfigManager.Core.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="input"></param>
         /// <returns></returns>
+        public static T Cast<T>(this string input)
+        {
+            try
+            {
+                var converter = TypeDescriptor.GetConverter(typeof(T));
+                return (T)converter.ConvertFromString(input);
+            }
+            catch (Exception)
+            {
+                return default(T);
+            }
+        }
+        
+        /// <summary>
+        /// try to convert string to specified type. if not, return type default value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public static T Cast<T>(this string input, string type)
         {
             try
