@@ -154,7 +154,7 @@ namespace ConfigManager.Core.Managers
 
         private void RefreshCache(object sender, System.Timers.ElapsedEventArgs e)
         {
-            var newCachedList = new List<CacheConfigurationDTO>(CachedList);
+            var newCachedList = CachedList != null ? new List<CacheConfigurationDTO>(CachedList) : new List<CacheConfigurationDTO>();
 
             var lastModifyDate = newCachedList.OrderByDescending(a => a.LastModifyDate).FirstOrDefault()?.LastModifyDate;
             var configurationList = _storageProvider.GetList(_applicationName, lastModifyDate ?? DateTime.MinValue);

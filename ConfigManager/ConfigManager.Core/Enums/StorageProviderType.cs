@@ -3,6 +3,7 @@
     public enum StorageProviderType
     {
         PostgreSQL = 1,
-        MongoDb = 2
+        MongoDb = 2,
+        InMemoryDb = 3
     }
 }

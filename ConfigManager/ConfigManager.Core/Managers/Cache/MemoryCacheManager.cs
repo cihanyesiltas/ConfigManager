@@ -16,9 +16,9 @@ namespace ConfigManager.Core.Managers
 
         public T Get<T>(string key)
         {
-            if (_memoryCache.TryGetValue(key, out object res))
+            if (_memoryCache.TryGetValue(key, out T res))
             {
-                return res.ToString().Cast<T>();
+                return res;
             }
 
             return default(T);

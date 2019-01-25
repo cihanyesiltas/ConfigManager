@@ -2,6 +2,7 @@
 using ConfigManager.Core.Contracts;
 using ConfigManager.Core.DTOs;
 using ConfigManager.Core.Enums;
+using ConfigManager.Core.Providers.InMemoryDbProvider;
 using ConfigManager.Core.Providers.MongoDbProvider;
 using ConfigManager.Core.Providers.PostgreSqlProvider;
 
@@ -17,6 +18,8 @@ namespace ConfigManager.Core.Implementations
                     return new MongoDbStorageProvider(connection.ConnectionString);
                 case StorageProviderType.PostgreSQL:
                     return new PostgreSqlStorageProvider(connection.ConnectionString);
+                case StorageProviderType.InMemoryDb:
+                    return new InMemoryDbStorageProvider();
                 default:
                     throw new ArgumentOutOfRangeException();
             }
