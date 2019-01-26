@@ -1,7 +1,7 @@
 ﻿using System;
 using MongoDB.Bson;
 
-namespace ConfigManager.Core.Providers.MongoDbProvider
+namespace ConfigManager.Core.DataProviders.MongoDbProvider
 {
    internal class ConfigurationDocument
     {

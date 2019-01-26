@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace ConfigManager.Core.Providers.InMemoryDbProvider
+namespace ConfigManager.Core.DataProviders.InMemoryDbProvider
 {
     internal class ConfigurationContext : DbContext
     {

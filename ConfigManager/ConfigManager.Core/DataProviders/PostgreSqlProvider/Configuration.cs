@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ConfigManager.Core.Providers.InMemoryDbProvider
+namespace ConfigManager.Core.DataProviders.PostgreSqlProvider
 {
     internal class Configuration
     {

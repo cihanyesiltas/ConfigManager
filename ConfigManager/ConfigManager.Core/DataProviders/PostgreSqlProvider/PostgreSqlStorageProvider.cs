@@ -8,7 +8,7 @@ using ConfigManager.Core.DTOs;
 using Dapper;
 using Npgsql;
 
-namespace ConfigManager.Core.Providers.PostgreSqlProvider
+namespace ConfigManager.Core.DataProviders.PostgreSqlProvider
 {
     internal class PostgreSqlStorageProvider : IStorageProvider
     {

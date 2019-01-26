@@ -39,7 +39,7 @@ namespace ConfigManager.Web
             var factory = services.BuildServiceProvider().GetService<IConfigurationReaderFactory>();
 
             services.AddSingleton<IConfigurationReader>(s => factory.Create("services",
-                new Connection("mongodb://localhost:27017/ConfigDb", StorageProviderType.MongoDb), 60000));
+                new Connection("mongodb://localhost:27017/ConfigDb", StorageProviderType.InMemoryDb), 60000));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

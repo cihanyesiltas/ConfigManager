@@ -6,7 +6,7 @@ using ConfigManager.Core.Contracts;
 using ConfigManager.Core.DTOs;
 using Microsoft.EntityFrameworkCore;
 
-namespace ConfigManager.Core.Providers.InMemoryDbProvider
+namespace ConfigManager.Core.DataProviders.InMemoryDbProvider
 {
     internal class InMemoryDbStorageProvider : IStorageProvider
     {

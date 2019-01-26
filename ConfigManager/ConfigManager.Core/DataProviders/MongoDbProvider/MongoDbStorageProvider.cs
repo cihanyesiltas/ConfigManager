@@ -7,7 +7,7 @@ using ConfigManager.Core.DTOs;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace ConfigManager.Core.Providers.MongoDbProvider
+namespace ConfigManager.Core.DataProviders.MongoDbProvider
 {
     internal class MongoDbStorageProvider : IStorageProvider
     {

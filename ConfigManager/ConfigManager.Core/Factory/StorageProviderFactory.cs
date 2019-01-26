@@ -1,10 +1,10 @@
 ﻿using System;
 using ConfigManager.Core.Contracts;
+using ConfigManager.Core.DataProviders.InMemoryDbProvider;
+using ConfigManager.Core.DataProviders.MongoDbProvider;
+using ConfigManager.Core.DataProviders.PostgreSqlProvider;
 using ConfigManager.Core.DTOs;
 using ConfigManager.Core.Enums;
-using ConfigManager.Core.Providers.InMemoryDbProvider;
-using ConfigManager.Core.Providers.MongoDbProvider;
-using ConfigManager.Core.Providers.PostgreSqlProvider;
 
 namespace ConfigManager.Core.Implementations
 {
