@@ -13,5 +13,6 @@ namespace ConfigManager.Core.Contracts
         List<ConfigurationDTO> GetAll();
         List<ConfigurationDTO> SearchByName(string name);
         ConfigurationDTO GetById(string id);
+        void RefreshCache();
     }
 }

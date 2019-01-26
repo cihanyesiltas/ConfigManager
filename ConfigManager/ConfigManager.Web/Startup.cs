@@ -6,6 +6,7 @@ using ConfigManager.Core.Contracts;
 using ConfigManager.Core.DTOs;
 using ConfigManager.Core.Enums;
 using ConfigManager.Core.Factory;
+using ConfigManager.Core.QuartzScheduler;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -40,7 +41,9 @@ namespace ConfigManager.Web
 
             services.AddSingleton<IConfigurationReader>(s => factory.Create("services",
                 new Connection("mongodb://localhost:27017/ConfigDb", StorageProviderType.InMemoryDb), 60000));
-
+          
+            services.AddCacheRefreshQuartzScheduler(60000);
+           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -61,6 +64,7 @@ namespace ConfigManager.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseQuartz();
             app.UseMvc();
         }
     }

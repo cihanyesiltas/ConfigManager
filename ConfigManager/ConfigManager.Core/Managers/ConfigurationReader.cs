@@ -10,7 +10,7 @@ using ConfigManager.Core.Validators;
 
 namespace ConfigManager.Core.Managers
 {
-    public class ConfigurationReader : IConfigurationReader, IDisposable
+    public class ConfigurationReader : IConfigurationReader
     {
         private readonly IStorageProvider _storageProvider;
         private readonly ICacheManager _cacheManager;
@@ -24,7 +24,7 @@ namespace ConfigManager.Core.Managers
             _applicationName = applicationName;
             _refreshTimerIntervalInMs = refreshTimerIntervalInMs;
             _cacheManager = cacheManager;
-            InitiliazeRefreshCacheTimer();
+            FillCacheConfigurationList();;
         }
 
         private List<CacheConfigurationDTO> CachedList => _cacheManager.Get<List<CacheConfigurationDTO>>(string.Format(CacheKey.ApplicationConfigurationParameterList));
@@ -118,41 +118,8 @@ namespace ConfigManager.Core.Managers
 
             return null;
         }
-
-        private void InitiliazeRefreshCacheTimer()
-        {
-            FillCacheConfigurationList();
-
-            _timer = new System.Timers.Timer
-            {
-                Interval = _refreshTimerIntervalInMs,
-                AutoReset = true,
-                Enabled = true
-            };
-
-            _timer.Elapsed += RefreshCache;
-            _timer.Start();
-        }
-
-        private void FillCacheConfigurationList()
-        {
-            var list = _storageProvider.GetList(_applicationName);
-            var cacheList = list.Select(a => new CacheConfigurationDTO
-            {
-                ApplicationName = a.ApplicationName,
-                Value = a.Value,
-                Name = a.Name,
-                Type = a.Type,
-                Id = a.Id,
-                CreationDate = a.CreationDate,
-                LastModifyDate = a.LastModifyDate,
-                IsActive = a.IsActive
-            }).ToList();
-
-            _cacheManager.Add(CacheKey.ApplicationConfigurationParameterList, cacheList);
-        }
-
-        private void RefreshCache(object sender, System.Timers.ElapsedEventArgs e)
+        
+        public void RefreshCache()
         {
             var newCachedList = CachedList != null ? new List<CacheConfigurationDTO>(CachedList) : new List<CacheConfigurationDTO>();
 
@@ -192,27 +159,22 @@ namespace ConfigManager.Core.Managers
             _cacheManager.Add(CacheKey.ApplicationConfigurationParameterList, newCachedList);
         }
 
-        #region Disposable
-
-        private bool _disposed = false;
-        protected virtual void Dispose(bool disposing)
+        private void FillCacheConfigurationList()
         {
-            if (!_disposed)
+            var list = _storageProvider.GetList(_applicationName);
+            var cacheList = list.Select(a => new CacheConfigurationDTO
             {
-                if (disposing)
-                {
-                    _timer.Dispose();
-                }
-            }
+                ApplicationName = a.ApplicationName,
+                Value = a.Value,
+                Name = a.Name,
+                Type = a.Type,
+                Id = a.Id,
+                CreationDate = a.CreationDate,
+                LastModifyDate = a.LastModifyDate,
+                IsActive = a.IsActive
+            }).ToList();
 
-            _disposed = true;
+            _cacheManager.Add(CacheKey.ApplicationConfigurationParameterList, cacheList);
         }
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
     }
 }
